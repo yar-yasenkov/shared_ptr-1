@@ -8,20 +8,20 @@ public:
 	shared_ptr(shared_ptr const&);
 	shared_ptr(shared_ptr&&);
 	~shared_ptr();
-	auto operator = (shared_ptr const&) -> shared_ptr&;
-	auto operator = (shared_ptr&&) -> shared_ptr&;
+	auto operator = (shared_ptr const&)->shared_ptr&;
+	auto operator = (shared_ptr&&)->shared_ptr&;
 	auto swap(shared_ptr&) -> void;
 	auto reset() -> void;
-	auto get() const -> T*;
-	auto operator *() const -> T&;
-	auto countref() const -> size_t;
+	auto get() const->T*;
+	auto operator *() const->T&;
+	auto countref() const->size_t;
 private:
 	T *ptr_;
 	size_t *counter_;
 };
 
 template <typename T>
-auto make_shared(T&&) -> shared_ptr<T>;
+auto make_shared(T&&)->shared_ptr<T>;
 
 
 
@@ -32,7 +32,10 @@ template <typename T>
 shared_ptr<T>::shared_ptr(T* ptr) : ptr_(ptr), counter_(new size_t(1)) {}
 
 template <typename T>
-shared_ptr<T>::shared_ptr(shared_ptr const& x) : ptr_(x.ptr_), counter_(&(++(*x.counter_))) {}
+shared_ptr<T>::shared_ptr(shared_ptr const& x) : ptr_(x.ptr_), counter_(x.counter_) 
+{
+	++(*counter_);
+}
 
 template <typename T>
 shared_ptr<T>::shared_ptr(shared_ptr&& x) : ptr_(x.ptr_), counter_(x.counter_)
@@ -44,7 +47,7 @@ shared_ptr<T>::shared_ptr(shared_ptr&& x) : ptr_(x.ptr_), counter_(x.counter_)
 template <typename T>
 shared_ptr<T>::~shared_ptr()
 {
-	if (ptr_ != nullptr && counter_ != nullptr && --(*counter_)==0)
+	if (ptr_ != nullptr && counter_ != nullptr && --(*counter_) == 0)
 	{
 		delete ptr_;
 		delete counter_;
@@ -56,9 +59,7 @@ auto shared_ptr<T>::operator = (shared_ptr const& x) -> shared_ptr&
 {
 	if (this != &x)
 	{
-		this->reset();
-		ptr_ = x.ptr_;
-		counter_ = &(++(*x.counter_));
+		(shared_ptr<T>(x)).swap(*this);
 	}
 	return *this;
 }
@@ -80,7 +81,11 @@ auto shared_ptr<T>::swap(shared_ptr& x) -> void
 template <typename T>
 auto shared_ptr<T>::reset() -> void
 {
-	this->~shared_ptr();
+	if (ptr_ != nullptr && counter_ != nullptr && --(*counter_) == 0)
+	{
+		delete ptr_;
+		delete counter_;
+	}
 	ptr_ = nullptr;
 	counter_ = nullptr;
 }
@@ -94,7 +99,7 @@ auto shared_ptr<T>::get() const -> T*
 template <typename T>
 auto shared_ptr<T>::operator *() const -> T&
 {
-	return *ptr_;
+	if(counter_) return *ptr_;
 }
 
 template <typename T>
