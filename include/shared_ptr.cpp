@@ -5,7 +5,7 @@ class shared_ptr{
 public:
 	shared_ptr(); /*noexcept*/
 	shared_ptr(T* ptr); /*strong*/
-	shared_ptr(shared_ptr const&); /*strong*/
+	shared_ptr(shared_ptr const&); /*noexcept*/
 	shared_ptr(shared_ptr&&); /*noexcept*/
 	~shared_ptr(); /*noexcept*/
 	auto operator = (shared_ptr const&)->shared_ptr&; /*strong*/
