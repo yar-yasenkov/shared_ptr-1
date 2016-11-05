@@ -82,7 +82,7 @@ SCENARIO("make_shared", "[make_shared]"){
 }
 
 SCENARIO("test", "[test]"){
-	shared_ptr sptr1;
-	shared_ptr sptr2{ ptr1 };
+	shared_ptr<int> sptr1;
+	shared_ptr<int> sptr2{ ptr1 };
 REQUIRE(sptr2.countref()==0;);
 }
