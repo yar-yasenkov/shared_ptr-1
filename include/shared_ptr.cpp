@@ -3,18 +3,18 @@
 template <typename T>
 class shared_ptr{
 public:
-	shared_ptr();
-	shared_ptr(T* ptr);
-	shared_ptr(shared_ptr const&);
-	shared_ptr(shared_ptr&&);
-	~shared_ptr();
-	auto operator = (shared_ptr const&)->shared_ptr&;
-	auto operator = (shared_ptr&&)->shared_ptr&;
-	auto swap(shared_ptr&) -> void;
-	auto reset() -> void;
-	auto get() const->T*;
-	auto operator *() const->T&;
-	auto countref() const->size_t;
+	shared_ptr(); /*noexcept*/
+	shared_ptr(T* ptr); /*strong*/
+	shared_ptr(shared_ptr const&); /*strong*/
+	shared_ptr(shared_ptr&&); /*noexcept*/
+	~shared_ptr(); /*noexcept*/
+	auto operator = (shared_ptr const&)->shared_ptr&; /*strong*/
+	auto operator = (shared_ptr&&)->shared_ptr&; /*noexcept*/
+	auto swap(shared_ptr&) -> void; /*noexcept*/
+	auto reset() -> void; /*noexcept*/
+	auto get() const->T*; /*noexcept*/
+	auto operator *() const->T&; /*strong*/
+	auto countref() const->size_t; /*noexcept*/
 private:
 	T *ptr_;
 	size_t *counter_;
@@ -99,13 +99,15 @@ auto shared_ptr<T>::get() const -> T*
 template <typename T>
 auto shared_ptr<T>::operator *() const -> T&
 {
-	if(counter_) return *ptr_;
+	if (ptr_ != nullptr) return *ptr_;
+	else throw ("nullptr...");
 }
 
 template <typename T>
 auto shared_ptr<T>::countref() const -> size_t
 {
-	return *counter_;
+	if (counter_ != nullptr) return *counter_;
+	else return 0;
 }
 
 template <typename T>
