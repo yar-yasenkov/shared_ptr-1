@@ -34,7 +34,7 @@ shared_ptr<T>::shared_ptr(T* ptr) : ptr_(ptr), counter_(new size_t(1)) {}
 template <typename T>
 shared_ptr<T>::shared_ptr(shared_ptr const& x) : ptr_(x.ptr_), counter_(x.counter_) 
 {
-	(*counter_)++;
+	if(counter_ != nullptr) ++(*counter_);
 }
 
 template <typename T>
