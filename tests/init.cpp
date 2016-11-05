@@ -62,6 +62,17 @@ SCENARIO("get", "[get]"){
   REQUIRE(*sp.get()==7);
 }
 
+SCENARIO("op_CTPEJlO4KA", "op_CTPEJlO4KA[]"){
+	class A{
+	public:
+		int a1;
+		A(int x) : a1(x){}
+	};
+	A a(7);
+	shared_ptr<A> sptr1=make_shared<A>(std::move(a));
+	REQUIRE(sptr1->a1 == 7);
+}
+
 SCENARIO("op_3BE3DO4KA", "[op_3BE3DO4KA]"){
   shared_ptr<int> sp(new int(7));
   REQUIRE(*sp==7);
