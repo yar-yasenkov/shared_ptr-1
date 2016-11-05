@@ -34,7 +34,7 @@ shared_ptr<T>::shared_ptr(T* ptr) : ptr_(ptr), counter_(new size_t(1)) {}
 template <typename T>
 shared_ptr<T>::shared_ptr(shared_ptr const& x) : ptr_(x.ptr_), counter_(x.counter_) 
 {
-	++(*counter_);
+	(*counter_)++;
 }
 
 template <typename T>
@@ -67,7 +67,7 @@ auto shared_ptr<T>::operator = (shared_ptr const& x) -> shared_ptr&
 template <typename T>
 auto shared_ptr<T>::operator = (shared_ptr&& x) -> shared_ptr&
 {
-	this->swap(x);
+	if (this != &x) this->swap(x);
 	return *this;
 }
 
