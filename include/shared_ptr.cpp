@@ -13,6 +13,7 @@ public:
 	auto swap(shared_ptr&) -> void; /*noexcept*/
 	auto reset() -> void; /*noexcept*/
 	auto get() const->T*; /*noexcept*/
+	auto operator ->() const->T&; /*strong*/
 	auto operator *() const->T&; /*strong*/
 	auto countref() const->size_t; /*noexcept*/
 private:
@@ -96,6 +97,13 @@ template <typename T>
 auto shared_ptr<T>::get() const -> T*
 {
 	return ptr_;
+}
+
+template <typename T>
+auto shared_ptr<T>::operator ->() const -> T*
+{
+	if (ptr_ != nullptr) return ptr_;
+	else throw ("nullptr...");
 }
 
 template <typename T>
