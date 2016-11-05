@@ -20,9 +20,11 @@ private:
 	size_t *counter_;
 };
 
-template <typename T>
-auto make_shared(T&&)->shared_ptr<T>;
-
+template <typename T, class ...Args>
+auto make_shared( Args && ...args ) -> shared_ptr<T>
+{
+    return shared_ptr<T>( new T( std::forward<Args>(args)... ) );
+}
 
 
 template <typename T>
@@ -108,10 +110,4 @@ auto shared_ptr<T>::countref() const -> size_t
 {
 	if (counter_ != nullptr) return *counter_;
 	else return 0;
-}
-
-template <typename T>
-auto make_shared(T&& x) -> shared_ptr<T>
-{
-	return shared_ptr<T>(new T(std::move(x)));
 }
