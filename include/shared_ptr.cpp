@@ -13,7 +13,7 @@ public:
 	auto swap(shared_ptr&) -> void; /*noexcept*/
 	auto reset() -> void; /*noexcept*/
 	auto get() const->T*; /*noexcept*/
-	auto operator ->() const->T&; /*strong*/
+	auto operator ->() const->T*; /*strong*/
 	auto operator *() const->T&; /*strong*/
 	auto countref() const->size_t; /*noexcept*/
 private:
