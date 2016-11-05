@@ -80,3 +80,9 @@ SCENARIO("make_shared", "[make_shared]"){
 	shared_ptr<int> sp = make_shared<int>(std::move(a));
   REQUIRE(*sp==7);
 }
+
+SCENARIO("test", "[test]"){
+	shared_ptr sptr1;
+	shared_ptr sptr2{ ptr1 };
+REQUIRE(*sp==7);
+}
