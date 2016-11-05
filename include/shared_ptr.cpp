@@ -8,7 +8,7 @@ public:
 	shared_ptr(shared_ptr const&); /*noexcept*/
 	shared_ptr(shared_ptr&&); /*noexcept*/
 	~shared_ptr(); /*noexcept*/
-	auto operator = (shared_ptr const&)->shared_ptr&; /*strong*/
+	auto operator = (shared_ptr const&)->shared_ptr&; /*noexcept*/
 	auto operator = (shared_ptr&&)->shared_ptr&; /*noexcept*/
 	auto swap(shared_ptr&) -> void; /*noexcept*/
 	auto reset() -> void; /*noexcept*/
